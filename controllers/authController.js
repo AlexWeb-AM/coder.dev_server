@@ -194,7 +194,7 @@ export const resetPassword = async (req,res) => {
   try {
     const user = await userModel.findOne({email})
 
-    const hashedPassword = bcrypt.hash(newPassword,10)
+    const hashedPassword = await bcrypt.hash(newPassword,10)
 
     user.password = hashedPassword
 
