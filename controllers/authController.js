@@ -169,9 +169,9 @@ export const checkOtp = async (req,res) => {
 
     if (user.verifyOtp === otp) {
       user.verifyOtp = ''
-      await user.save('')
+      await user.save()
 
-      return res.status(400).json({success:true,message:"Otp Checked"})
+      return res.status(200).json({success:true,message:"Otp Checked"})
 
     } else {  
       return res.status(400).json({success:false,message:"Wrong Otp"})
@@ -184,6 +184,27 @@ export const checkOtp = async (req,res) => {
 
 }
 
-export const resetPassword = (req,res) => {
+export const resetPassword = async (req,res) => {
+  const {newPassword,email} = req.body
+
+  if (!newPassword || !email ) {
+    return res.status(400).json({success:false,message:"Data are required"})
+  }
+
+  try {
+    const user = await userModel.findOne({email})
+
+    const hashedPassword = bcrypt.hash(newPassword,10)
+
+    user.password = hashedPassword
+
+    await user.save()
+
+    return res.status(200).json({success:true,message:'Password succesfully changed'})
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({success:false,message:err})
+  }
 
 }
