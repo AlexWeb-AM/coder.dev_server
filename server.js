@@ -7,7 +7,7 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors({credentials: true}))
+app.use(cors({credentials: true,origin:'*'}))
 app.use(express.json())
 app.use('/api/auth',authRouter)
 
