@@ -14,7 +14,9 @@
   "type": "module",
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
+    "child_process": "^1.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -22,7 +24,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
     "nodemailer": "^6.10.0",
-    "server": "file:"
+    "server": "file:",
+    "vm2": "^3.9.19"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
