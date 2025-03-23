@@ -1,5 +1,5 @@
 import express from 'express'
-import { receiveCode } from '../utils/codeController.js'
+import { receiveCode } from '../controllers/codeController.js'
 
 const codeRouter = express.Router()
 
