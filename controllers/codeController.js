@@ -1,5 +1,5 @@
-import { NodeVM } from "vm2";
-import ts from "typescript";
+import SandboxedModule from 'sandboxed-module';
+import ts from 'typescript';
 
 export const receiveCode = async (req, res) => {
     const { code, language } = req.body;
@@ -15,19 +15,23 @@ export const receiveCode = async (req, res) => {
     try {
         let transpiledCode = code;
 
-        // Если TypeScript, сначала компилируем в JavaScript
         if (language === "TypeScript") {
             const result = ts.transpileModule(code, { compilerOptions: { module: ts.ModuleKind.CommonJS } });
             transpiledCode = result.outputText;
         }
 
         let output = [];
-        const vm = new NodeVM({
-            sandbox: { console: { log: (...args) => output.push(args.join(" ")) } },
-            timeout: 1000, // 1 секунда на выполнение
+        
+        const sandbox = SandboxedModule.load('dummy-module', {
+            source: transpiledCode,
+            globals: {
+                console: {
+                    log: (...args) => output.push(args.join(" "))
+                },
+            }
         });
 
-        vm.run(transpiledCode);
+        sandbox.exports(); 
 
         return res.status(200).json({
             result: output.join("\n"),
