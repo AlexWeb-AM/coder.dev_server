@@ -11,7 +11,7 @@ import codeRouter from './router/codeRouters.js'
 const app = express()
 
 app.use(cors({
-    origin:['http://localhost:5173/','https://code-dev-mu.vercel.app/'], 
+    origin:'*', 
     credentials: true
 }));
 app.use(express.json())
